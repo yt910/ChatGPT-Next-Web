@@ -8,11 +8,11 @@ import {
   requestWebSearch,
   requestWithPrompt,
 } from "../requests";
-import { isMobileScreen, trimTopic } from "../utils";
+import { trimTopic } from "../utils";
 
 import Locale from "../locales";
 import { showToast } from "../components/ui-lib";
-import { DEFAULT_CONFIG, ModelConfig, ModelType, useAppConfig } from "./config";
+import { ModelType } from "./config";
 import { createEmptyMask, Mask } from "./mask";
 import { StoreKey } from "../constant";
 
@@ -183,8 +183,9 @@ export const useChatStore = create<ChatStore>()(
         const sessions = get().sessions.slice();
         sessions.splice(index, 1);
 
+        const currentIndex = get().currentSessionIndex;
         let nextIndex = Math.min(
-          get().currentSessionIndex,
+          currentIndex - Number(index < currentIndex),
           sessions.length - 1,
         );
 
@@ -254,9 +255,20 @@ export const useChatStore = create<ChatStore>()(
           model: modelConfig.model,
         });
 
+        const systemInfo = createMessage({
+          role: "system",
+          content: `IMPRTANT: You are a virtual assistant powered by the ${
+            modelConfig.model
+          } model, now time is ${new Date().toLocaleString()}}`,
+          id: botMessage.id! + 1,
+        });
+
         // get recent messages
+        const systemMessages = [systemInfo];
         const recentMessages = get().getMessagesWithMemory();
-        const sendMessages = recentMessages.concat(userMessage);
+        const sendMessages = systemMessages.concat(
+          recentMessages.concat(userMessage),
+        );
         const sessionIndex = get().currentSessionIndex;
         const messageIndex = get().currentSession().messages.length + 1;
 
