@@ -22,8 +22,8 @@ export const DEFAULT_CONFIG = {
   fontSize: 14,
   theme: Theme.Auto as Theme,
   tightBorder: false,
-  sendPreviewBubble: true,
-  sidebarWidth: 300,
+  sendPreviewBubble: false,
+  sidebarWidth: 280,
   webSearch: false,
 
   disablePromptHint: false,
