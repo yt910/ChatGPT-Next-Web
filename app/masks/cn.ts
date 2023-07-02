@@ -2,6 +2,29 @@ import { BuiltinMask } from "./typing";
 
 export const CN_MASKS: BuiltinMask[] = [
   {
+    avatar: "1f9d1-200d-1f3eb",
+    name: "翻译",
+    context: [
+      {
+        role: "system",
+        content:
+          "你来充当任何语言都能翻译的助手，你的目标是把我发的任何语言自动翻译成简体中文，请翻译时不要带翻译腔，而是要翻译得自然、流畅和地道，使用优美和高雅的表达方式。只翻译原文，不要带其他任何解释。",
+        date: "",
+      },
+    ],
+    modelConfig: {
+      model: "gpt-3.5-turbo-0613",
+      temperature: 1,
+      max_tokens: 12000,
+      presence_penalty: 0,
+      sendMemory: true,
+      historyMessageCount: 0,
+      compressMessageLengthThreshold: 9900,
+    },
+    lang: "cn",
+    builtin: true,
+  },
+  {
     avatar: "1f638",
     name: "文案写手",
     context: [
